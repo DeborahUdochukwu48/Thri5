@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Thri5 concept · Assign, count, verify · Deborah Amajuoyi</title>
+<title>Thri5 concepts · Deborah Amajuoyi</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -87,15 +87,59 @@
 </head>
 <body>
 
-<div class="intro">
-  <h1>Thri5 concept: assign, count, verify</h1>
-  <p>A store manager hands a count to someone on shift and gets it back verified. Try different people and different counts (0, 3 or 27).</p>
+<div class="intro wide" style="margin-top:0">
+  <h1>Thri5 concept: review the outlier, approve the rest</h1>
+  <p>In a grouped review, a likely data error is pulled out so “Approve all” can’t pass it through. Try deciding on the flagged item, untick a row, then approve.</p>
+</div>
+
+<section class="review" aria-label="Product weight review">
+  <div class="rv-top">
+    <div class="rv-brand"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B47DC" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.2 6.8L21 12l-6.8 2.2L12 21l-2.2-6.8L3 12l6.8-2.2z"/></svg>Thri5 Assistant</div>
+    <div class="chips"><span class="tag" style="background:#EFEAFE;color:#4A2FB0">Review together</span><span class="tag" style="background:#FFF1D6;color:#7A4E00">Approval required</span></div>
+  </div>
+  <div><div style="font-size:26px;font-weight:700">Product weight errors detected</div><div class="muted" style="font-size:16px;margin-top:4px">4 similar actions, grouped into one review</div></div>
+  <div class="chips">
+    <span class="chip" style="background:#E6F4EC;color:#17603C" id="chipReady">3 ready to approve</span>
+    <span class="chip" style="background:#FFF1D6;color:#7A4E00" id="chipFlag">1 needs a look</span>
+  </div>
+
+  <div class="flag" id="flagBox">
+    <div class="lbl" style="color:#7A4E00" id="flagLbl">NEEDS A LOOK · LIKELY DATA ERROR</div>
+    <div class="flag-row">
+      <div><div style="font-size:20px;font-weight:600">7136 Ribeye Roast</div><div class="muted" style="font-size:15px">Current 4.09 LB  →  Proposed 5.80 LB</div></div>
+      <span class="badge">+41.8%</span>
+    </div>
+    <p style="margin:0;font-size:15px;line-height:1.5;color:#3A3757;max-width:620px" id="flagText">This change is about 10× larger than the others in this group. That usually points to a scale or data-entry error rather than a real change in product weight.</p>
+    <div class="acts" id="flagActs">
+      <button class="outline" type="button" data-flag="recount">Request recount</button>
+      <button class="ghost" type="button" data-flag="keep">Keep current weight</button>
+      <button class="textbtn" type="button" data-flag="approve">Approve anyway</button>
+    </div>
+    <div class="acts" id="flagUndo" style="display:none"><button class="textbtn" type="button" data-flag="undo" style="color:#4A2FB0">Undo</button></div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <div class="lbl" id="readyLbl">READY TO APPROVE · 3</div>
+    <div class="table" id="skuTable"></div>
+  </div>
+
+  <div class="banner" id="approvedBanner" role="status"></div>
+  <div class="rv-foot">
+    <p class="muted" style="margin:0;font-size:15px">You review before anything changes. The flagged item stays open until you decide.</p>
+    <button class="approve" type="button" id="approveBtn">Approve 3</button>
+  </div>
+</section>
+
+
+<div class="intro" style="margin-top:28px">
+  <h1>Thri5 concept: route the fix to the person on the floor</h1>
+  <p>Thri5 already routes each issue to the person who can fix it. This takes routing one step further: the store manager can pass a physical check to whoever is on shift, and Thri5 still verifies the result against the source data. Try different people and different counts (0, 3 or 27).</p>
 </div>
 
 <div class="phone" role="application" aria-label="Prototype">
 
   <!-- Screen 1: Assign -->
-  <section class="screen on" id="s-assign" aria-label="Assign the count">
+  <section class="screen on" id="s-assign" aria-label="Route the count">
     <div class="hdr">
       <div class="spacer"></div>
       <div class="user"><span class="av s">SM</span>Store manager · Today</div>
@@ -120,7 +164,7 @@
       </div>
     </div>
     <div class="bottom">
-      <button class="primary" id="assignBtn" type="button">Assign to Maya</button>
+      <button class="primary" id="assignBtn" type="button">Route to Maya</button>
       <p class="hint" id="assignHint"></p>
     </div>
   </section>
@@ -130,12 +174,12 @@
     <div class="hdr left">
       <button class="iconbtn" type="button" aria-label="Back" data-go="assign"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1D1B3F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
       <span class="av m" id="wIni">MR</span>
-      <div><div class="t14 muted" id="wName">Maya R. · Today</div><div class="t20">Your tasks (2)</div></div>
+      <div><div class="t14 muted" id="wName">Maya R. · Today</div><div class="t20">Your actions (2)</div></div>
     </div>
     <div class="body" style="padding-top:8px">
       <div class="card" style="gap:14px">
         <div class="row"><span class="pill">COUNT THIS ITEM</span><span class="t13 muted">Due by 2:00 pm</span></div>
-        <div><div class="t20">Wagyu Ribeye Steak, 10 oz</div><div class="t14 muted" id="taskFrom">Assigned by your store manager</div></div>
+        <div><div class="t20">Wagyu Ribeye Steak, 10 oz</div><div class="t14 muted" id="taskFrom">Routed by your store manager</div></div>
         <div class="loc">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4A2FB0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0;margin-top:2px"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
           <div class="t14"><strong>Freezer aisle 6</strong><div class="muted">Check the shelf, the top rack and back stock</div></div>
@@ -155,7 +199,7 @@
         </div>
       </div>
       <div class="card" style="padding:14px 16px;flex-direction:row;justify-content:space-between;align-items:center">
-        <div><div style="font-size:15px;font-weight:600">Receive DSD delivery</div><div class="t13 muted">Next task · by 3:30 pm</div></div>
+        <div><div style="font-size:15px;font-weight:600">Receive DSD delivery</div><div class="t13 muted">Next action · by 3:30 pm</div></div>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5E5A7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
       </div>
     </div>
@@ -198,49 +242,6 @@
     </div>
   </section>
 </div>
-
-<div class="intro wide">
-  <h1>Thri5 concept: review the outlier, approve the rest</h1>
-  <p>In a grouped review, a likely data error is pulled out so “Approve all” can’t pass it through. Try deciding on the flagged item, untick a row, then approve.</p>
-</div>
-
-<section class="review" aria-label="Product weight review">
-  <div class="rv-top">
-    <div class="rv-brand"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B47DC" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.2 6.8L21 12l-6.8 2.2L12 21l-2.2-6.8L3 12l6.8-2.2z"/></svg>Thri5 Assistant</div>
-    <div class="chips"><span class="tag" style="background:#EFEAFE;color:#4A2FB0">Review together</span><span class="tag" style="background:#FFF1D6;color:#7A4E00">Approval required</span></div>
-  </div>
-  <div><div style="font-size:26px;font-weight:700">Product weight errors detected</div><div class="muted" style="font-size:16px;margin-top:4px">4 similar actions, grouped into one review</div></div>
-  <div class="chips">
-    <span class="chip" style="background:#E6F4EC;color:#17603C" id="chipReady">3 ready to approve</span>
-    <span class="chip" style="background:#FFF1D6;color:#7A4E00" id="chipFlag">1 needs a look</span>
-  </div>
-
-  <div class="flag" id="flagBox">
-    <div class="lbl" style="color:#7A4E00" id="flagLbl">NEEDS A LOOK · LIKELY DATA ERROR</div>
-    <div class="flag-row">
-      <div><div style="font-size:20px;font-weight:600">7136 Ribeye Roast</div><div class="muted" style="font-size:15px">Current 4.09 LB  →  Proposed 5.80 LB</div></div>
-      <span class="badge">+41.8%</span>
-    </div>
-    <p style="margin:0;font-size:15px;line-height:1.5;color:#3A3757;max-width:620px" id="flagText">This change is about 10× larger than the others in this group. That usually points to a scale or data-entry error rather than a real change in product weight.</p>
-    <div class="acts" id="flagActs">
-      <button class="outline" type="button" data-flag="recount">Request recount</button>
-      <button class="ghost" type="button" data-flag="keep">Keep current weight</button>
-      <button class="textbtn" type="button" data-flag="approve">Approve anyway</button>
-    </div>
-    <div class="acts" id="flagUndo" style="display:none"><button class="textbtn" type="button" data-flag="undo" style="color:#4A2FB0">Undo</button></div>
-  </div>
-
-  <div style="display:flex;flex-direction:column;gap:10px">
-    <div class="lbl" id="readyLbl">READY TO APPROVE · 3</div>
-    <div class="table" id="skuTable"></div>
-  </div>
-
-  <div class="banner" id="approvedBanner" role="status"></div>
-  <div class="rv-foot">
-    <p class="muted" style="margin:0;font-size:15px">You review before anything changes. The flagged item stays open until you decide.</p>
-    <button class="approve" type="button" id="approveBtn">Approve 3</button>
-  </div>
-</section>
 
 <p class="foot">Concepts by Deborah Amajuoyi, based only on Thri5’s public product material. The products, proposed weights and the 41.8% change come from Thri5’s product video; current weights, names, times, the item name and durations are illustrative.</p>
 
@@ -297,9 +298,9 @@
 <script>
 (function(){
   var people=[
-    {id:'maya',ini:'MR',name:'Maya R.',first:'Maya',meta:'Frozen · until 4:00 pm · 2 tasks today'},
-    {id:'daniel',ini:'DO',name:'Daniel O.',first:'Daniel',meta:'Receiving · until 6:00 pm · 4 tasks today'},
-    {id:'me',ini:'SM',name:'Do it myself',first:'you',meta:'Adds it to your own list'}
+    {id:'maya',ini:'MR',name:'Maya R.',first:'Maya',meta:'Frozen · until 4:00 pm · 2 actions today'},
+    {id:'daniel',ini:'DO',name:'Daniel O.',first:'Daniel',meta:'Receiving · until 6:00 pm · 4 actions today'},
+    {id:'me',ini:'SM',name:'Do it myself',first:'you',meta:'Keeps it in your own actions'}
   ];
   var state={screen:'assign',who:'maya',count:0};
   var $=function(id){return document.getElementById(id);};
@@ -312,14 +313,14 @@
     var c=chosen(),me=c.id==='me';
     $('opts').innerHTML=people.map(function(p){var sel=p.id===state.who;
       return '<button type="button" class="opt'+(sel?' sel':'')+'" aria-pressed="'+sel+'" data-who="'+p.id+'"><span class="av l">'+p.ini+'</span><span class="info"><span class="nm">'+p.name+'</span><span class="t13 muted">'+p.meta+'</span></span>'+radio(sel)+'</button>';}).join('');
-    $('assignBtn').textContent=me?'Start the count myself':'Assign to '+c.first;
-    $('assignHint').textContent=me?'It moves to your own task list.':c.first+' gets it on their phone. You’ll see when it’s verified.';
+    $('assignBtn').textContent=me?'Start the count myself':'Route to '+c.first;
+    $('assignHint').textContent=me?'It stays in your own actions.':c.first+' gets it on their phone. You’ll see when it’s verified.';
     $('wIni').textContent=c.ini;
     $('wName').textContent=(me?'Store manager':c.name)+' · Today';
-    $('taskFrom').textContent=me?'From your action list':'Assigned by your store manager';
+    $('taskFrom').textContent=me?'From your action list':'Routed by your store manager';
     $('count').value=state.count;
     var n=state.count,changed=n!==27,reorder=n<6;
-    $('actAssigned').textContent=me?'You took the count yourself':'You assigned it to '+c.name;
+    $('actAssigned').textContent=me?'You took the count yourself':'You routed it to '+c.name;
     $('actCounted').textContent=(me?'You':c.first)+' counted: '+n+' found';
     $('erpVal').innerHTML=changed?'<span style="color:#5E5A7A;text-decoration:line-through">27</span>  →  <span style="color:#17603C">'+n+'</span>':'27 · no change';
     $('resolved').textContent=me?'Resolved in 19 min.':'Resolved in 19 min without leaving your other actions.';
