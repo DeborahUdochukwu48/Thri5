@@ -89,7 +89,7 @@
 
 <div class="intro wide" style="margin-top:0">
   <h1>Thri5 concept: review the outlier, approve the rest</h1>
-  <p>In a grouped review, a likely data error is pulled out so “Approve all” can’t pass it through. Try deciding on the flagged item, untick a row, then approve.</p>
+  <p>Thri5’s assistant says it flags drift that looks like a data error. This concept makes that flag impossible to miss: the flagged item is taken out of “Approve all” and needs its own decision. Try deciding on it, untick a row, then approve.</p>
 </div>
 
 <section class="review" aria-label="Product weight review">
@@ -109,7 +109,7 @@
       <div><div style="font-size:20px;font-weight:600">7136 Ribeye Roast</div><div class="muted" style="font-size:15px">Current 4.09 LB  →  Proposed 5.80 LB</div></div>
       <span class="badge">+41.8%</span>
     </div>
-    <p style="margin:0;font-size:15px;line-height:1.5;color:#3A3757;max-width:620px" id="flagText">This change is about 10× larger than the others in this group. That usually points to a scale or data-entry error rather than a real change in product weight.</p>
+    <p style="margin:0;font-size:15px;line-height:1.5;color:#3A3757;max-width:620px" id="flagText">This is the largest change in the group. A jump this size can point to a scale or data-entry error rather than a real change in product weight, so it gets its own decision.</p>
     <div class="acts" id="flagActs">
       <button class="outline" type="button" data-flag="recount">Request recount</button>
       <button class="ghost" type="button" data-flag="keep">Keep current weight</button>
@@ -148,7 +148,7 @@
       <div class="card">
         <div class="row" style="align-items:flex-start">
           <div><div class="t20">Phantom inventory</div><div class="t14 muted">Chicago · Inventory</div></div>
-          <div style="text-align:right"><div class="t20">$2,543</div><div style="font-size:11px;font-weight:600;letter-spacing:.6px" class="muted">AT RISK</div></div>
+          <div style="text-align:right"><div class="t20">$2,543</div><div style="font-size:11px;font-weight:600;letter-spacing:.6px" class="muted">OPPORTUNITY VALUE</div></div>
         </div>
         <p class="t14" style="margin:0;color:#3A3757;line-height:1.45">System shows 27 on hand, but nothing has sold in 3 weeks.</p>
         <div style="display:flex;flex-direction:column;gap:8px" class="t14">
@@ -243,7 +243,7 @@
   </section>
 </div>
 
-<p class="foot">Concepts by Deborah Amajuoyi, based only on Thri5’s public product material. The products, proposed weights and the 41.8% change come from Thri5’s product video; current weights, names, times, the item name and durations are illustrative.</p>
+<p class="foot">Concepts by Deborah Amajuoyi, based only on Thri5’s public website and product video. From the video: the four products and their proposed weights, the 41.8% largest drift, and the Phantom inventory · Chicago figures. Illustrative: which product had the 41.8% drift, the current weights and other drift values, names, times, durations and the item being counted.</p>
 
 <script>
 (function(){
@@ -272,7 +272,7 @@
     $('flagBox').classList.toggle('done',done);
     $('flagLbl').textContent=done?'DECIDED':'NEEDS A LOOK · LIKELY DATA ERROR';
     $('flagLbl').style.color=done?'#5E5A7A':'#7A4E00';
-    $('flagText').textContent=done?flagMsg[st.flag]:'This change is about 10× larger than the others in this group. That usually points to a scale or data-entry error rather than a real change in product weight.';
+    $('flagText').textContent=done?flagMsg[st.flag]:'This is the largest change in the group. A jump this size can point to a scale or data-entry error rather than a real change in product weight, so it gets its own decision.';
     $('flagActs').style.display=done?'none':'flex';
     $('flagUndo').style.display=done?'flex':'none';
     $('chipFlag').textContent=done?'Flagged item decided':'1 needs a look';
@@ -325,8 +325,8 @@
     $('erpVal').innerHTML=changed?'<span style="color:#5E5A7A;text-decoration:line-through">27</span>  →  <span style="color:#17603C">'+n+'</span>':'27 · no change';
     $('resolved').textContent=me?'Resolved in 19 min.':'Resolved in 19 min without leaving your other actions.';
     if(!changed){$('nextTitle').textContent='No phantom inventory here';$('nextText').textContent='The count matches the system, so the alert closes with no stock change. Worth checking why this item stopped selling.';}
-    else if(reorder){$('nextTitle').textContent='Next: get it back on the shelf';$('nextText').textContent='On hand is now '+n+', less than a week of average sales (6.0). Thri5 Assist can draft a replenishment request to the DC for your approval.';}
-    else{$('nextTitle').textContent='On hand corrected';$('nextText').textContent='On hand is now '+n+', more than a week of average sales (6.0), so no reorder is needed yet.';}
+    else if(reorder){$('nextTitle').textContent='Next: get it back on the shelf';$('nextText').textContent='On hand is now '+n+', below the 6.0 average sales shown in the alert. Thri5 Assist can draft a replenishment request to the DC for your approval.';}
+    else{$('nextTitle').textContent='On hand corrected';$('nextText').textContent='On hand is now '+n+', at or above the 6.0 average sales shown in the alert, so no reorder is suggested yet.';}
     $('reorderBtn').style.display=changed&&reorder?'':'none';
   }
   document.addEventListener('click',function(e){
