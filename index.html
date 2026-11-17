@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thri5 concept · Assign, count, verify · Deborah Amajuoyi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Outfit',system-ui,sans-serif;color:#1D1B3F;background:#E9E6F5;min-height:100vh;display:flex;flex-direction:column;align-items:center;gap:20px;padding:32px 16px}
+  .intro{max-width:390px;text-align:center}
+  .intro h1{margin:0 0 6px;font-size:20px}
+  .intro p{margin:0;font-size:14px;color:#5E5A7A;line-height:1.45}
+  .phone{width:390px;max-width:100%;height:844px;background:#F4F2FC;border-radius:36px;box-shadow:0 20px 60px rgba(40,30,90,.18);overflow:hidden;display:flex;flex-direction:column}
+  .screen{display:none;flex-direction:column;height:100%}
+  .screen.on{display:flex}
+  .hdr{display:flex;align-items:center;justify-content:space-between;padding:20px 16px 12px;gap:10px}
+  .hdr.left{justify-content:flex-start;padding-bottom:8px}
+  .iconbtn{width:44px;height:44px;flex-shrink:0;border-radius:12px;border:1px solid #E3DEF4;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer}
+  .spacer{width:44px;height:44px}
+  .user{display:flex;align-items:center;gap:8px;font-size:14px;color:#5E5A7A}
+  .av{border-radius:999px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0}
+  .av.s{width:28px;height:28px;font-size:12px;background:#EFEAFE;color:#4A2FB0}
+  .av.m{width:36px;height:36px;font-size:13px;background:#1D1B3F;color:#fff}
+  .av.l{width:40px;height:40px;font-size:14px}
+  .body{flex:1;padding:4px 16px 0;display:flex;flex-direction:column;gap:14px;overflow:auto}
+  .card{background:#fff;border:1px solid #E3DEF4;border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:12px}
+  .row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .muted{color:#5E5A7A}
+  .t20{font-size:20px;font-weight:700}
+  .t14{font-size:14px}
+  .t13{font-size:13px}
+  .lbl{font-size:12px;font-weight:700;letter-spacing:1.2px;color:#5E5A7A}
+  .tint{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-radius:12px;background:#EFEAFE;font-size:14px;color:#4A2FB0}
+  .opt{width:100%;min-height:68px;text-align:left;background:#fff;border:1px solid #E3DEF4;border-radius:16px;padding:12px 14px;display:flex;align-items:center;gap:12px;font-family:inherit;color:#1D1B3F;cursor:pointer}
+  .opt.sel{border:2px solid #6B47DC}
+  .opt .av{background:#EFEAFE;color:#4A2FB0}
+  .opt.sel .av{background:#1D1B3F;color:#fff}
+  .opt .info{flex:1;display:flex;flex-direction:column;gap:2px}
+  .opt .nm{font-size:16px;font-weight:600}
+  .bottom{padding:12px 16px 28px;display:flex;flex-direction:column;gap:10px}
+  .primary{min-height:52px;width:100%;border-radius:14px;border:none;background:#1D1B3F;color:#fff;font-family:inherit;font-size:17px;font-weight:600;cursor:pointer}
+  .primary.sm{min-height:48px;font-size:16px;border-radius:12px}
+  .secondary{min-height:48px;border-radius:12px;border:1px solid #D6D0EC;background:#fff;font-family:inherit;font-size:15px;font-weight:500;color:#1D1B3F;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer}
+  .hint{margin:0;text-align:center;font-size:13px;color:#5E5A7A}
+  .pill{padding:5px 10px;border-radius:999px;background:#EFEAFE;color:#4A2FB0;font-size:12px;font-weight:700}
+  .loc{display:flex;gap:10px;align-items:flex-start;padding:12px;border-radius:12px;background:#F4F2FC}
+  .stepper{display:flex;align-items:center;gap:10px}
+  .sq{width:52px;height:52px;border-radius:14px;border:1px solid #D6D0EC;background:#fff;font-family:inherit;font-size:24px;color:#1D1B3F;cursor:pointer}
+  .count{flex:1;min-width:0;height:52px;border-radius:14px;border:1.5px solid #6B47DC;text-align:center;font-family:inherit;font-size:24px;font-weight:700;color:#1D1B3F}
+  .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .verified{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:#E6F4EC;color:#17603C;font-size:14px;font-weight:700}
+  .actrow{display:flex;gap:12px}
+  .actrow .c{display:flex;flex-direction:column;gap:2px;flex:1}
+  .erp{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-radius:12px;background:#F4F2FC}
+  .link{min-height:44px;border:none;background:transparent;color:#4A2FB0;font-family:inherit;font-size:14px;font-weight:600;text-decoration:underline;cursor:pointer}
+  button:focus-visible,input:focus-visible{outline:3px solid #6B47DC;outline-offset:2px}
+  .foot{max-width:390px;text-align:center;font-size:12px;color:#5E5A7A;line-height:1.45}
+</style>
+</head>
+<body>
+
+<div class="intro">
+  <h1>Thri5 concept: assign, count, verify</h1>
+  <p>A store manager hands a count to someone on shift and gets it back verified. Try different people and different counts (0, 3 or 27).</p>
+</div>
+
+<div class="phone" role="application" aria-label="Prototype">
+
+  <!-- Screen 1: Assign -->
+  <section class="screen on" id="s-assign" aria-label="Assign the count">
+    <div class="hdr">
+      <div class="spacer"></div>
+      <div class="user"><span class="av s">SM</span>Store manager · Today</div>
+    </div>
+    <div class="body">
+      <div class="card">
+        <div class="row" style="align-items:flex-start">
+          <div><div class="t20">Phantom inventory</div><div class="t14 muted">Chicago · Inventory</div></div>
+          <div style="text-align:right"><div class="t20">$2,543</div><div style="font-size:11px;font-weight:600;letter-spacing:.6px" class="muted">AT RISK</div></div>
+        </div>
+        <p class="t14" style="margin:0;color:#3A3757;line-height:1.45">System shows 27 on hand, but nothing has sold in 3 weeks.</p>
+        <div style="display:flex;flex-direction:column;gap:8px" class="t14">
+          <div class="row"><span class="muted">Last week sales</span><strong>0</strong></div>
+          <div class="row"><span class="muted">Avg sales, last 8 weeks</span><strong>6.0</strong></div>
+          <div class="row"><span class="muted">Last cycle count</span><strong>2026-03-06</strong></div>
+        </div>
+        <div class="tint"><strong>Cycle count to verify on-hand</strong><span>~15 min</span></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="lbl">WHO SHOULD DO THIS? · ON SHIFT NOW</div>
+        <div id="opts" style="display:flex;flex-direction:column;gap:10px"></div>
+      </div>
+    </div>
+    <div class="bottom">
+      <button class="primary" id="assignBtn" type="button">Assign to Maya</button>
+      <p class="hint" id="assignHint"></p>
+    </div>
+  </section>
+
+  <!-- Screen 2: Count -->
+  <section class="screen" id="s-task" aria-label="Do the count">
+    <div class="hdr left">
+      <button class="iconbtn" type="button" aria-label="Back" data-go="assign"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1D1B3F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <span class="av m" id="wIni">MR</span>
+      <div><div class="t14 muted" id="wName">Maya R. · Today</div><div class="t20">Your tasks (2)</div></div>
+    </div>
+    <div class="body" style="padding-top:8px">
+      <div class="card" style="gap:14px">
+        <div class="row"><span class="pill">COUNT THIS ITEM</span><span class="t13 muted">Due by 2:00 pm</span></div>
+        <div><div class="t20">Wagyu Ribeye Steak, 10 oz</div><div class="t14 muted" id="taskFrom">Assigned by your store manager</div></div>
+        <div class="loc">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4A2FB0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0;margin-top:2px"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+          <div class="t14"><strong>Freezer aisle 6</strong><div class="muted">Check the shelf, the top rack and back stock</div></div>
+        </div>
+        <p style="margin:0;font-size:15px;line-height:1.45">The system says <strong>27</strong>. Count what’s really there, even if it’s zero.</p>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <label for="count" class="t14" style="font-weight:600">Units counted</label>
+          <div class="stepper">
+            <button class="sq" type="button" id="dec" aria-label="Decrease count">−</button>
+            <input class="count" id="count" type="number" min="0" value="0" inputmode="numeric">
+            <button class="sq" type="button" id="inc" aria-label="Increase count">+</button>
+          </div>
+        </div>
+        <div class="grid2">
+          <button class="secondary" type="button">Scan item</button>
+          <button class="secondary" type="button">Add photo</button>
+        </div>
+      </div>
+      <div class="card" style="padding:14px 16px;flex-direction:row;justify-content:space-between;align-items:center">
+        <div><div style="font-size:15px;font-weight:600">Receive DSD delivery</div><div class="t13 muted">Next task · by 3:30 pm</div></div>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5E5A7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+      </div>
+    </div>
+    <div class="bottom">
+      <button class="primary" type="button" data-go="verified">Submit count</button>
+      <p class="hint">Try 0, 3 or 27 to see how the outcome changes.</p>
+    </div>
+  </section>
+
+  <!-- Screen 3: Verified -->
+  <section class="screen" id="s-verified" aria-label="Verified">
+    <div class="hdr">
+      <button class="iconbtn" type="button" aria-label="Back" data-go="task"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1D1B3F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <div class="user"><span class="av s">SM</span>Store manager · Today</div>
+    </div>
+    <div class="body">
+      <div class="row">
+        <div><div class="t20">Phantom inventory</div><div class="t14 muted">Chicago · Inventory</div></div>
+        <span class="verified"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#17603C" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Verified</span>
+      </div>
+      <div class="card" style="gap:16px">
+        <div class="lbl">ACTIVITY</div>
+        <div class="actrow"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" style="flex-shrink:0"><circle cx="12" cy="12" r="11" fill="#E6F4EC"/><path d="M7 12l3.5 3.5L17 9" fill="none" stroke="#17603C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="c"><strong style="font-size:15px" id="actAssigned"></strong><span class="t13 muted">1:12 pm</span></div></div>
+        <div class="actrow"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" style="flex-shrink:0"><circle cx="12" cy="12" r="11" fill="#E6F4EC"/><path d="M7 12l3.5 3.5L17 9" fill="none" stroke="#17603C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="c"><strong style="font-size:15px" id="actCounted"></strong><span class="t13 muted">1:31 pm · shelf, top rack and back stock checked</span></div></div>
+        <div class="actrow"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" style="flex-shrink:0"><circle cx="12" cy="12" r="11" fill="#E6F4EC"/><path d="M7 12l3.5 3.5L17 9" fill="none" stroke="#17603C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="c" style="gap:6px"><strong style="font-size:15px">Thri5 checked the source data</strong>
+            <div class="erp"><span class="t13 muted" style="font-weight:600">ERP · On hand</span><span id="erpVal" style="font-size:18px;font-weight:700"></span></div>
+          </div>
+        </div>
+        <div class="t14" style="padding-top:4px;border-top:1px solid #EEEAF8;color:#3A3757" id="resolved"></div>
+      </div>
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B47DC" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.2 6.8L21 12l-6.8 2.2L12 21l-2.2-6.8L3 12l6.8-2.2z"/></svg><span id="nextTitle"></span></div>
+        <p class="t14" style="margin:0;line-height:1.45;color:#3A3757" id="nextText"></p>
+        <button class="primary sm" type="button" id="reorderBtn">Review replenishment request</button>
+      </div>
+    </div>
+    <div class="bottom" style="align-items:center">
+      <button class="link" type="button" id="restart">Restart prototype</button>
+    </div>
+  </section>
+</div>
+
+<p class="foot">Concept by Deborah Amajuoyi, based only on Thri5’s public product material. Names, times, the item name and durations are illustrative.</p>
+
+<script>
+(function(){
+  var people=[
+    {id:'maya',ini:'MR',name:'Maya R.',first:'Maya',meta:'Frozen · until 4:00 pm · 2 tasks today'},
+    {id:'daniel',ini:'DO',name:'Daniel O.',first:'Daniel',meta:'Receiving · until 6:00 pm · 4 tasks today'},
+    {id:'me',ini:'SM',name:'Do it myself',first:'you',meta:'Adds it to your own list'}
+  ];
+  var state={screen:'assign',who:'maya',count:0};
+  var $=function(id){return document.getElementById(id);};
+  function chosen(){return people.filter(function(p){return p.id===state.who;})[0];}
+  function radio(sel){return sel
+    ?'<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="#6B47DC" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="#6B47DC"/></svg>'
+    :'<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="#B9B2D6" stroke-width="2"/></svg>';}
+  function render(){
+    ['assign','task','verified'].forEach(function(s){$('s-'+s).classList.toggle('on',state.screen===s);});
+    var c=chosen(),me=c.id==='me';
+    $('opts').innerHTML=people.map(function(p){var sel=p.id===state.who;
+      return '<button type="button" class="opt'+(sel?' sel':'')+'" aria-pressed="'+sel+'" data-who="'+p.id+'"><span class="av l">'+p.ini+'</span><span class="info"><span class="nm">'+p.name+'</span><span class="t13 muted">'+p.meta+'</span></span>'+radio(sel)+'</button>';}).join('');
+    $('assignBtn').textContent=me?'Start the count myself':'Assign to '+c.first;
+    $('assignHint').textContent=me?'It moves to your own task list.':c.first+' gets it on their phone. You’ll see when it’s verified.';
+    $('wIni').textContent=c.ini;
+    $('wName').textContent=(me?'Store manager':c.name)+' · Today';
+    $('taskFrom').textContent=me?'From your action list':'Assigned by your store manager';
+    $('count').value=state.count;
+    var n=state.count,changed=n!==27,reorder=n<6;
+    $('actAssigned').textContent=me?'You took the count yourself':'You assigned it to '+c.name;
+    $('actCounted').textContent=(me?'You':c.first)+' counted: '+n+' found';
+    $('erpVal').innerHTML=changed?'<span style="color:#5E5A7A;text-decoration:line-through">27</span>  →  <span style="color:#17603C">'+n+'</span>':'27 · no change';
+    $('resolved').textContent=me?'Resolved in 19 min.':'Resolved in 19 min without leaving your other actions.';
+    if(!changed){$('nextTitle').textContent='No phantom inventory here';$('nextText').textContent='The count matches the system, so the alert closes with no stock change. Worth checking why this item stopped selling.';}
+    else if(reorder){$('nextTitle').textContent='Next: get it back on the shelf';$('nextText').textContent='On hand is now '+n+', less than a week of average sales (6.0). Thri5 Assist can draft a replenishment request to the DC for your approval.';}
+    else{$('nextTitle').textContent='On hand corrected';$('nextText').textContent='On hand is now '+n+', more than a week of average sales (6.0), so no reorder is needed yet.';}
+    $('reorderBtn').style.display=changed&&reorder?'':'none';
+  }
+  document.addEventListener('click',function(e){
+    var o=e.target.closest('[data-who]');if(o){state.who=o.getAttribute('data-who');render();return;}
+    var g=e.target.closest('[data-go]');if(g){state.screen=g.getAttribute('data-go');render();return;}
+  });
+  $('assignBtn').addEventListener('click',function(){state.screen='task';render();});
+  $('inc').addEventListener('click',function(){state.count++;render();});
+  $('dec').addEventListener('click',function(){state.count=Math.max(0,state.count-1);render();});
+  $('count').addEventListener('input',function(e){var v=parseInt(e.target.value,10);state.count=isNaN(v)||v<0?0:v;});
+  $('count').addEventListener('change',render);
+  $('restart').addEventListener('click',function(){state={screen:'assign',who:'maya',count:0};render();});
+  render();
+})();
+</script>
+</body>
+</html>
